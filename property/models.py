@@ -2,9 +2,14 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
 
+from phonenumber_field.modelfields import PhoneNumberField
+
 
 class Flat(models.Model):
     owner = models.CharField('ФИО владельца', max_length=200)
+    owner_pure_phone = PhoneNumberField(
+        'Нормализованный номер телефона', region='RU', blank=True
+    )
     owners_phonenumber = models.CharField('Номер владельца', max_length=20)
     new_building = models.BooleanField('Новостройка', null=True, blank=True)
     created_at = models.DateTimeField(
