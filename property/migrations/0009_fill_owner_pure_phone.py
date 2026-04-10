@@ -9,7 +9,7 @@ def fill_owner_pure_phone(apps, schema_editor):
     flats = Flat.objects.filter(
         Q(owner_pure_phone__isnull=True) | Q(owner_pure_phone='')
     ).exclude(owners_phonenumber__isnull=True)
-    for flat in flats:
+    for flat in flats.iterator():
         raw = (flat.owners_phonenumber or '').strip()
         if not raw:
             continue

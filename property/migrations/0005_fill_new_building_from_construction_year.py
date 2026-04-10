@@ -3,7 +3,7 @@ from django.db import migrations
 
 def fill_new_building_from_construction_year(apps, schema_editor):
     Flat = apps.get_model('property', 'Flat')
-    for flat in Flat.objects.all():
+    for flat in Flat.objects.all().iterator():
         year = flat.construction_year
         if year is None:
             flat.new_building = None

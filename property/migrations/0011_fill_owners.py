@@ -5,14 +5,15 @@ def fill_owners(apps, schema_editor):
     Flat = apps.get_model('property', 'Flat')
     Owner = apps.get_model('property', 'Owner')
 
-    for flat in Flat.objects.all():
+    for flat in Flat.objects.all().iterator():
         owner, _ = Owner.objects.get_or_create(
             name=flat.owner,
             defaults={
                 'owners_phonenumber': flat.owners_phonenumber,
                 'pure_phone': flat.owner_pure_phone,
             }
-    )
+        )
+
 
 def reverse_fill_owners(apps, schema_editor):
     Owner = apps.get_model('property', 'Owner')

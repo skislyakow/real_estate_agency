@@ -5,7 +5,7 @@ def link_owners_flats(apps, schema_editor):
     Flat = apps.get_model('property', 'Flat')
     Owner = apps.get_model('property', 'Owner')
 
-    for flat in Flat.objects.all():
+    for flat in Flat.objects.all().iterator():
         if flat.owner_deprecated:
             owner = Owner.objects.filter(name=flat.owner_deprecated).first()
             if owner:
@@ -14,7 +14,7 @@ def link_owners_flats(apps, schema_editor):
 
 def reverse_link_owners_flats(apps, schema_editor):
     Owner = apps.get_model('property', 'Owner')
-    for owner in Owner.objects.all():
+    for owner in Owner.objects.all().iterator():
         owner.flats.clear()
 
 
