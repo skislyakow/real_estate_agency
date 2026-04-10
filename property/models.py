@@ -67,7 +67,7 @@ class Flat(models.Model):
 
 
 class Complaint(models.Model):
-    user = models.ForeignKey(
+    complainant = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
         related_name='complaints',
