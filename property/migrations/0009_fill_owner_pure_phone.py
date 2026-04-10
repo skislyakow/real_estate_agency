@@ -6,9 +6,9 @@ import phonenumbers
 
 def fill_owner_pure_phone(apps, schema_editor):
     Flat = apps.get_model('property', 'Flat')
-    flats = Flat.objects.filter(Q(owner_pure_phone__isnull=True) | Q(owner_pure_phone='')).exclude(
-        owners_phonenumber__isnull=True
-    )
+    flats = Flat.objects.filter(
+        Q(owner_pure_phone__isnull=True) | Q(owner_pure_phone='')
+    ).exclude(owners_phonenumber__isnull=True)
     for flat in flats:
         raw = (flat.owners_phonenumber or '').strip()
         if not raw:
@@ -17,10 +17,10 @@ def fill_owner_pure_phone(apps, schema_editor):
             parsed = phonenumbers.parse(raw, region='RU')
             if not phonenumbers.is_valid_number(parsed):
                 continue
-            e164 = phonenumbers.format_number(
+            pure_number = phonenumbers.format_number(
                 parsed, phonenumbers.PhoneNumberFormat.E164
             )
-            flat.owner_pure_phone = e164
+            flat.owner_pure_phone = pure_number
             try:
                 with transaction.atomic():
                     flat.save(update_fields=['owner_pure_phone'])
