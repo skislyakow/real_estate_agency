@@ -7,7 +7,9 @@ def link_owners_flats(apps, schema_editor):
 
     for flat in Flat.objects.all().iterator():
         if flat.owner_deprecated:
-            owner = Owner.objects.filter(name=flat.owner_deprecated).first()
+            owner = Owner.objects.filter(
+                owners_phonenumber=flat.owners_phonenumber
+            ).first()
             if owner:
                 owner.flats.add(flat)
 

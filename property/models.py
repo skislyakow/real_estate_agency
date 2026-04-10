@@ -89,7 +89,9 @@ class Owner(models.Model):
     pure_phone = PhoneNumberField(
         'Нормализованный телефон', region='RU', blank=True
     )
-    owners_phonenumber = models.CharField('Номер владельца', max_length=20)
+    owners_phonenumber = models.CharField(
+        'Номер владельца', max_length=20, unique=True
+    )
     flats = models.ManyToManyField(
         Flat,
         related_name='owners',
