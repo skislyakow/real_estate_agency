@@ -32,10 +32,13 @@ class Flat(models.Model):
     floor = models.CharField(
         'Этаж',
         max_length=3,
+        blank=True,
         help_text='Первый этаж, последний этаж, пятый этаж')
 
     rooms_number = models.IntegerField(
         'Количество комнат в квартире',
+        null=True,
+        blank=True,
         db_index=True)
     living_area = models.IntegerField(
         'количество жилых кв.метров',
@@ -74,7 +77,9 @@ class Complaint(models.Model):
         Flat,
         on_delete=models.CASCADE,
         related_name='complaints',
-        verbose_name='Квартира, на которую пожаловались:'
+        verbose_name='Квартира, на которую пожаловались:',
+        blank=True,
+        null=True
     )
     text = models.TextField('Текст жалобы:')
 
@@ -89,6 +94,7 @@ class Owner(models.Model):
         Flat,
         related_name='owners',
         verbose_name='Квартиры в собственности',
+        blank=True
     )
 
     def __str__(self):
